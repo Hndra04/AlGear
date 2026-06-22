@@ -34,7 +34,7 @@ test:
 ## Make dataset
 .PHONY: data
 data: requirements
-	$(PYTHON_INTERPRETER) aigear/dataset.py
+	$(PYTHON_INTERPRETER) algear/dataset.py
 
 #################################################################################
 # Self Documenting Commands                                                     #

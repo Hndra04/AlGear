@@ -4,7 +4,7 @@ from loguru import logger
 from tqdm import tqdm
 import typer
 
-from aigear.config import PROCESSED_DATA_DIR
+from algear.config import PROCESSED_DATA_DIR
 
 app = typer.Typer()
 

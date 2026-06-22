@@ -3,7 +3,7 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "aigear"
+name = "algear"
 version = "0.1.0"
 description = "Real-time PPE compliance monitoring system powered by computer vision."
 authors = [
@@ -16,12 +16,12 @@ classifiers = [
 
 [tool.ruff]
 line-length = 99
-src = ["aigear"]
-include = ["pyproject.toml", "aigear/**/*.py"]
+src = ["algear"]
+include = ["pyproject.toml", "algear/**/*.py"]
 
 [tool.ruff.lint]
 extend-select = ["I"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["aigear"]
+known-first-party = ["algear"]
 force-sort-within-sections = true

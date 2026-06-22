@@ -4,21 +4,21 @@ from loguru import logger
 from tqdm import tqdm
 import typer
 
-from aigear.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
+from algear.config import FIGURES_DIR, PROCESSED_DATA_DIR
 
 app = typer.Typer()
 
 
 @app.command()
 def main(
-    input_path: Path = RAW_DATA_DIR / "dataset",
-    output_path: Path = PROCESSED_DATA_DIR / "dataset",
+    input_path: Path = PROCESSED_DATA_DIR / "dataset.csv",
+    output_path: Path = FIGURES_DIR / "plot.png",
 ):
-    logger.info("Processing dataset...")
+    logger.info("Generating plot from data...")
     for i in tqdm(range(10), total=10):
         if i == 5:
             logger.info("Something happened for iteration 5.")
-    logger.success("Processing dataset complete.")
+    logger.success("Plot generation complete.")
 
 
 if __name__ == "__main__":

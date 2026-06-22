@@ -2,6 +2,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from loguru import logger
+import os
 
 load_dotenv()
 
@@ -18,6 +19,12 @@ MODELS_DIR = PROJ_ROOT / "models"
 
 REPORTS_DIR = PROJ_ROOT / "reports"
 FIGURES_DIR = REPORTS_DIR / "figures"
+
+ROBOFLOW_API_KEY = os.getenv("ROBOFLOW_API_KEY", "")
+ROBOFLOW_WORKSPACE = "roboflow-100"
+ROBOFLOW_PROJECT = "construction-safety-gsnvb"
+ROBOFLOW_VERSION = 1
+ROBOFLOW_DIR = RAW_DATA_DIR / "construction-safety-gsnvb"
 
 try:
     from tqdm import tqdm
