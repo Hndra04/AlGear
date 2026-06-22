@@ -21,7 +21,6 @@ def train_yolov8(
     oversample_data: bool = False,
     copy_paste: float = 0.0,
     mixup: float = 0.0,
-    fl_gamma: float = 0.0,
 ):
     from ultralytics import YOLO
 
@@ -53,8 +52,6 @@ def train_yolov8(
         strategies.append(f"copy_paste={copy_paste}")
     if mixup > 0:
         strategies.append(f"mixup={mixup}")
-    if fl_gamma > 0:
-        strategies.append(f"focal_loss_gamma={fl_gamma}")
     if strategies:
         logger.info(f"Imbalance strategies: {', '.join(strategies)}")
     else:
@@ -82,8 +79,6 @@ def train_yolov8(
         train_kwargs["copy_paste"] = copy_paste
     if mixup > 0:
         train_kwargs["mixup"] = mixup
-    if fl_gamma > 0:
-        train_kwargs["fl_gamma"] = fl_gamma
 
     results = model.train(**train_kwargs)
 
