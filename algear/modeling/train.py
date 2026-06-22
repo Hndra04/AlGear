@@ -74,11 +74,11 @@ def evaluate(
     metrics = model.val(data=str(data_yaml), split=split, device=device)
 
     logger.info("=== Per-Class Metrics ===")
-    for i, name in enumerate(metrics.ap_class_index):
+    for i, cls_idx in enumerate(metrics.ap_class_index):
         logger.info(
-            f"  {metrics.names[i]:<15s}  "
-            f"mAP@50={metrics.box.mp[i]:.3f}  "
-            f"mAP@50:95={metrics.box.mr[i]:.3f}  "
+            f"  {model.names[cls_idx]:<15s}  "
+            f"mAP@50={metrics.box.ap50[i]:.3f}  "
+            f"mAP@50:95={metrics.box.ap[i]:.3f}  "
             f"Precision={metrics.box.p[i]:.3f}  "
             f"Recall={metrics.box.r[i]:.3f}"
         )
