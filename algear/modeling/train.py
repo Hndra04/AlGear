@@ -12,6 +12,7 @@ app = typer.Typer()
 def train_yolov8(
     data_yaml: Path = ROBOFLOW_DIR / "data.yaml",
     model_name: str = "yolov8s.pt",
+    name: str = "baseline",
     epochs: int = 50,
     imgsz: int = 640,
     batch: int = 16,
@@ -65,7 +66,7 @@ def train_yolov8(
         lr0=lr0,
         device=device,
         project=str(output_dir),
-        name="baseline",
+        name=name,
         exist_ok=True,
         patience=20,
         save=True,
@@ -82,7 +83,7 @@ def train_yolov8(
 
     results = model.train(**train_kwargs)
 
-    best_model_path = output_dir / "baseline" / "weights" / "best.pt"
+    best_model_path = output_dir / name / "weights" / "best.pt"
     if best_model_path.exists():
         logger.success(f"Best model saved to {best_model_path}")
 
