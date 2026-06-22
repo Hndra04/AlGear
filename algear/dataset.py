@@ -58,13 +58,70 @@ def prepare(
 
 
 @app.command()
+def oversample(
+    labels_dir: Path = ROBOFLOW_DIR / "train" / "labels",
+    img_dir: Path = ROBOFLOW_DIR / "train" / "images",
+    output_dir: Path = PROCESSED_DATA_DIR / "construction-site-safety-oversampled",
+    multiplier_no_helmet: int = 10,
+    multiplier_no_vest: int = 3,
+):
+    """
+    Oversample minority classes by duplicating images with augmentation.
+
+    Images containing no-helmet (class 1) are duplicated `multiplier_no_helmet`
+    times, no-vest (class 2) by `multiplier_no_vest` times.
+    Each duplicate gets a different random augmentation.
+    """
+    from algear.modeling.oversample import (
+        create_oversampled_dataset,
+        scan_classes,
+    )
+
+    class_multipliers = {1: multiplier_no_helmet, 2: multiplier_no_vest}
+
+    image_classes = scan_classes(labels_dir)
+    for cls_id, mult in class_multipliers.items():
+        match_count = sum(1 for c in image_classes.values() if cls_id in c)
+        logger.info(
+            f"Class {cls_id} (no-{'helmet' if cls_id == 1 else 'vest'}): "
+            f"{match_count} images, multiplier={mult}, "
+            f"~{match_count * (mult - 1)} augmented copies"
+        )
+
+    logger.info(f"Creating oversampled dataset in {output_dir}")
+    create_oversampled_dataset(
+        src_dir=img_dir.parent,
+        dst_dir=output_dir / "train",
+        labels_dir=labels_dir,
+        class_multipliers=class_multipliers,
+    )
+
+    import yaml
+
+    orig_yaml = ROBOFLOW_DIR / "data.yaml"
+    with open(orig_yaml) as f:
+        cfg = yaml.safe_load(f)
+
+    cfg["train"] = str((output_dir / "train" / "images").resolve())
+    cfg["val"] = str((ROBOFLOW_DIR / "valid" / "images").resolve())
+    cfg["test"] = str((ROBOFLOW_DIR / "test" / "images").resolve())
+
+    with open(output_dir / "data.yaml", "w") as f:
+        yaml.dump(cfg, f, default_flow_style=False)
+
+    logger.success(f"Oversampled dataset ready at {output_dir}")
+
+
+@app.command()
 def main(
-    action: str = typer.Argument("download", help="Action: download or prepare"),
+    action: str = typer.Argument("download", help="Action: download, prepare, or oversample"),
 ):
     if action == "download":
         download_roboflow()
     elif action == "prepare":
         prepare()
+    elif action == "oversample":
+        oversample()
     else:
         logger.error(f"Unknown action: {action}")
         raise typer.Exit(code=1)

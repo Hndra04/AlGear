@@ -18,16 +18,47 @@ def train_yolov8(
     lr0: float = 0.01,
     device: str = "cpu",
     output_dir: Path = MODELS_DIR,
+    oversample_data: bool = False,
+    copy_paste: float = 0.0,
+    mixup: float = 0.0,
+    fl_gamma: float = 0.0,
 ):
     from ultralytics import YOLO
 
+    from algear.config import PROCESSED_DATA_DIR
+
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    if oversample_data:
+        oversampled_dir = PROCESSED_DATA_DIR / "construction-site-safety-oversampled"
+        oversampled_yaml = oversampled_dir / "data.yaml"
+        if oversampled_yaml.exists():
+            data_yaml = oversampled_yaml
+            logger.info(f"Using oversampled dataset: {data_yaml}")
+        else:
+            logger.warning(
+                f"Oversampled dataset not found at {oversampled_yaml}. "
+                "Run 'python -m algear.dataset oversample' first. Falling back to raw."
+            )
 
     model = YOLO(model_name)
 
     logger.info(f"Training YOLOv8s on {data_yaml}")
     logger.info(f"Epochs={epochs}, imgsz={imgsz}, batch={batch}, device={device}")
-    logger.info("NOTE: No class imbalance handling — this is a raw baseline.")
+
+    strategies = []
+    if oversample_data:
+        strategies.append("repeat-factor oversampling")
+    if copy_paste > 0:
+        strategies.append(f"copy_paste={copy_paste}")
+    if mixup > 0:
+        strategies.append(f"mixup={mixup}")
+    if fl_gamma > 0:
+        strategies.append(f"focal_loss_gamma={fl_gamma}")
+    if strategies:
+        logger.info(f"Imbalance strategies: {', '.join(strategies)}")
+    else:
+        logger.info("NOTE: No class imbalance handling — raw training.")
 
     train_kwargs = dict(
         data=str(data_yaml),
@@ -46,6 +77,13 @@ def train_yolov8(
         plots=True,
         verbose=True,
     )
+
+    if copy_paste > 0:
+        train_kwargs["copy_paste"] = copy_paste
+    if mixup > 0:
+        train_kwargs["mixup"] = mixup
+    if fl_gamma > 0:
+        train_kwargs["fl_gamma"] = fl_gamma
 
     results = model.train(**train_kwargs)
 
