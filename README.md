@@ -79,3 +79,45 @@ A single unified **YOLOv8s** model detects all five classes simultaneously (repl
 - Restricted zone detection
 - ONNX model export for cross-platform deployment
 - Worker compliance trend analytics
+
+## Project Organization
+
+```
+├── LICENSE            <- Open-source license
+├── Makefile           <- Convenience commands like `make data` or `make train`
+├── README.md          <- The top-level README for developers
+├── data
+│   ├── external       <- Data from third party sources.
+│   ├── interim        <- Intermediate data that has been transformed.
+│   ├── processed      <- The final, canonical data sets for modeling.
+│   └── raw            <- The original, immutable data dump.
+│
+├── docs               <- Documentation (mkdocs project)
+│
+├── models             <- Trained and serialized models, model predictions, or model summaries
+│
+├── notebooks          <- Jupyter notebooks
+│
+├── pyproject.toml     <- Project configuration with package metadata
+│
+├── references         <- Data dictionaries, manuals, and explanatory materials
+│
+├── reports            <- Generated analysis (HTML, PDF, LaTeX, etc.)
+│   └── figures        <- Generated graphics and figures for reporting
+│
+├── requirements.txt   <- Reproducible analysis environment
+│
+├── setup.cfg          <- Flake8 configuration
+│
+└── aigear             <- Source code for use in this project.
+    │
+    ├── __init__.py    <- Makes aigear a Python module
+    ├── config.py      <- Store useful variables and configuration
+    ├── dataset.py     <- Scripts to download or generate data
+    ├── features.py    <- Code to create features for modeling
+    ├── modeling
+    │   ├── __init__.py
+    │   ├── predict.py <- Model inference with trained models
+    │   └── train.py   <- Train models
+    └── plots.py       <- Create visualizations
+```
