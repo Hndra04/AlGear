@@ -31,6 +31,21 @@ format:
 test:
 	python -m pytest tests
 
+## Run inference API server
+.PHONY: serve
+serve:
+	$(PYTHON_INTERPRETER) -m algear.api
+
+## Build and run Docker container
+.PHONY: docker-up
+docker-up:
+	docker compose up --build
+
+## Stop Docker container
+.PHONY: docker-down
+docker-down:
+	docker compose down
+
 ## Make dataset
 .PHONY: data
 data: requirements

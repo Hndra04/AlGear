@@ -7,6 +7,11 @@ torch==2.11.0+cu128
 numpy==2.4.6
 pandas==3.0.3
 scikit-learn==1.9.0
+# API
+fastapi>=0.115.0
+uvicorn[standard]>=0.34.0
+python-multipart>=0.0.20
+
 # CLI & utilities
 typer==0.25.1
 python-dotenv==1.2.2
