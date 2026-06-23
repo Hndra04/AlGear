@@ -71,9 +71,9 @@ def capture_environment() -> dict:
 
         env_info["torch"] = torch.__version__
         env_info["cuda_available"] = torch.cuda.is_available()
-        if torch.cuda.is_available():
+        if torch.cuda.is_available() and torch.cuda.device_count() > 0:
             env_info["cuda_device"] = torch.cuda.get_device_name(0)
-    except ImportError:
+    except (ImportError, AssertionError):
         env_info["torch"] = "not installed"
 
     try:
@@ -201,8 +201,6 @@ def run_detection_eval(
         "precision": float(metrics.box.mp),
         "recall": float(metrics.box.mr),
         "per_class": per_class,
-        "images": int(metrics.seen),
-        "targets": int(metrics.targets) if hasattr(metrics, "targets") else None,
     }
 
 
