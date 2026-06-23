@@ -26,6 +26,11 @@ format:
 	ruff check --fix
 	ruff format
 
+## Run reproducible evaluation
+.PHONY: evaluate
+evaluate:
+	$(PYTHON_INTERPRETER) -m algear.evaluate $(ARGS)
+
 ## Run tests
 .PHONY: test
 test:
