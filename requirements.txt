@@ -1,7 +1,7 @@
 # Core
 ultralytics==8.4.75
 opencv-python==4.13.0.92
-torch==2.11.0+cu128
+torch==2.11.0
 
 # Data processing
 numpy==2.4.6
@@ -81,8 +81,8 @@ six==1.17.0
 stack-data==0.6.3
 sympy==1.14.0
 threadpoolctl==3.6.0
-torchaudio==2.11.0+cu128
-torchvision==0.26.0+cu128
+torchaudio==2.11.0
+torchvision==0.26.0
 tornado==6.5.7
 traitlets==5.15.1
 typing_extensions==4.15.0
