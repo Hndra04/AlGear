@@ -17,6 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY algear/ algear/
+COPY models/ models/
 COPY pyproject.toml .
 COPY README.md .
 
