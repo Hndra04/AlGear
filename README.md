@@ -66,12 +66,12 @@ A single unified **YOLOv8s** model detects all five classes simultaneously (repl
 
 ## Roadmap — Phase 2
 
-| Stage | Focus | Output |
-|---|---|---|
-| 1 | Data & Model Preparation | Dataset validation, unified YOLOv8s pipeline, initial fine-tuning, per-class mAP & Recall |
-| 2 | Core Pipeline Development | Zone-based people counting, IoU-based PPE–worker association, configurable compliance decision engine |
-| 3 | Real-Time Monitoring UI | OpenCV visualization (color-coded bounding boxes, active worker counter, violation alerts) |
-| 4 | Testing & Optimization | Full metric evaluation, detection threshold tuning to minimize FNR, demo preparation |
+| Stage | Focus | Output | Status |
+|---|---|---|---|
+| 1 | Data & Model Preparation | Dataset validation, unified YOLOv8s pipeline, initial fine-tuning, per-class mAP & Recall | ✅ Complete |
+| 2 | Core Pipeline Development | Zone-based people counting, IoU-based PPE–worker association, configurable compliance decision engine | ✅ Complete |
+| 3 | Real-Time Monitoring UI | OpenCV visualization (color-coded bounding boxes, active worker counter, violation alerts) | ✅ Complete |
+| 4 | Testing & Optimization | Full metric evaluation, detection threshold tuning to minimize FNR, demo preparation | 🔄 In Progress |
 
 ## Future Enhancements
 
@@ -109,15 +109,22 @@ A single unified **YOLOv8s** model detects all five classes simultaneously (repl
 │
 ├── setup.cfg          <- Flake8 configuration
 │
-└── aigear             <- Source code for use in this project.
+└── algear             <- Source code for use in this project.
     │
     ├── __init__.py    <- Makes aigear a Python module
     ├── config.py      <- Store useful variables and configuration
+    ├── core.py        <- Main PPE compliance pipeline (detect → associate → classify → zone count)
     ├── dataset.py     <- Scripts to download or generate data
     ├── features.py    <- Code to create features for modeling
+    ├── metrics.py     <- PPE Compliance Accuracy & People Counting MAE
+    ├── pipeline_config.py <- Pipeline YAML config loader
+    ├── visualize.py   <- OpenCV drawing (bounding boxes, compliance, zones, HUD)
+    ├── zones.py       <- Zone definitions and zone-based people counting
     ├── modeling
     │   ├── __init__.py
-    │   ├── predict.py <- Model inference with trained models
-    │   └── train.py   <- Train models
+    │   ├── oversample.py  <- Augmentation-based oversampling
+    │   ├── pipeline.py    <- IoU-based PPE–worker association + compliance logic
+    │   ├── predict.py     <- YOLOv8 inference wrapper
+    │   └── train.py       <- Train & evaluate models
     └── plots.py       <- Create visualizations
 ```
