@@ -18,6 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY algear/ algear/
 COPY pyproject.toml .
+COPY README.md .
 
 # Install the algear package
 RUN pip install --no-cache-dir -e .
